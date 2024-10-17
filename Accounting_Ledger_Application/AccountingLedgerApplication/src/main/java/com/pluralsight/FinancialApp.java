@@ -1,7 +1,157 @@
 package com.pluralsight;
 
+import java.util.Scanner;
+
 public class FinancialApp {
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
+        displayMenu();
 
     }
-}
+    private static void displayMenu() {
+            String choose;
+            System.out.println("\nHome Screen:");
+            System.out.println("D) Add Deposit:");
+            System.out.println("P) Add Payment:");
+            System.out.println("L) Display Ledger:");
+            System.out.println("X) Exit");
+            System.out.println("Choose other option: ");
+
+            choose = scanner.nextLine().toUpperCase();
+
+            switch (choose) {
+                case "D":
+                    addDeposit();
+                    break;
+                case "P":
+                    addPayment();
+                    break;
+                case "L":
+                    displayLedger();
+                    break;
+                case "X":
+                    System.out.println("Exiting the application");
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+        //Method for adding deposit
+        private static void addDeposit() {
+            System.out.print("Enter deposit amount: ");
+            double amount = Double.parseDouble(scanner.nextLine());
+            System.out.print("Enter deposit description: ");
+            String description = scanner.nextLine();
+            System.out.print("Enter vendor: ");
+            String vendor = scanner.nextLine();
+//            transactionManager.addDeposit(amount, description, vendor);
+        }
+        //Method for adding payment
+        private static void addPayment() {
+            System.out.print("Enter payment amount: ");
+            double amount = Double.parseDouble(scanner.nextLine());
+            System.out.print("Enter payment description: ");
+            String description = scanner.nextLine();
+            System.out.print("Enter vendor: ");
+            String vendor = scanner.nextLine();
+//            transactionManager.addPayment(amount, description, vendor);
+        }
+
+        private static void displayLedger() {
+            String choose;
+            System.out.println("\nLedger:");
+            System.out.println("A) Display ALL Transaction:");
+            System.out.println("P) Display Deposits:");
+            System.out.println("L) Display Payments:");
+            System.out.println("R) Reports");
+            System.out.println("X) Exit");
+
+            choose = scanner.nextLine().toUpperCase();
+
+            switch (choose) {
+                case "A":
+                    allEnteries();
+                    break;
+                case "P":
+                    deposit();
+                    break;
+                case "D":
+                    paymentEnteries();
+                    break;
+                case "R":
+                    report();
+                    break;
+                case "X":
+                    System.out.println("Return to main menu");
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+
+        private static void allEnteries() {
+            System.out.println("ALL transactions: ");
+        }
+
+        private static void deposit() {
+            System.out.println("Deposits: ");
+        }
+
+        private static void paymentEnteries() {
+            System.out.println("Payments: ");
+        }
+        private static void report() {
+            String choose;
+            System.out.println("\nReport:");
+            System.out.println("M) Month to Date:");
+            System.out.println("P) Previous Month:");
+            System.out.println("Y) Year to Date:");
+            System.out.println("PY) Previous Year");
+            System.out.println("S) Search by Vendor");
+            System.out.println("X) Exit");
+
+            choose = scanner.nextLine().toUpperCase();
+
+            switch (choose) {
+                case "M":
+                    monthToDate();
+                    break;
+                case "P":
+                    previousMonth();
+                    break;
+                case "Y":
+                    yearToDate();
+                    break;
+                case "PY":
+                    previousYear();
+                    break;
+                case "S":
+                    searchVendor();
+                    break;
+                case "X":
+                    System.out.println("Return to main menu");
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
+
+            private static void monthToDate() {
+                System.out.println("Month to Date: ");
+            }
+
+            private static void previousMonth() {
+                System.out.println("Previous Month: ");
+            }
+
+            private static void yearToDate() {
+                System.out.println("Year To Date: ");
+            }
+            private static void previousYear() {
+                System.out.println("Previous Year: ");
+            }
+            private static void searchVendor() {
+                System.out.println("Vendor Name: ");
+                String vendorName = scanner.nextLine();
+        }
+
+    }
+
