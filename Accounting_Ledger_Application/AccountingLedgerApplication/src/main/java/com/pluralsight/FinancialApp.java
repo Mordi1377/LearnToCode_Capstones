@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class FinancialApp {
@@ -44,17 +46,18 @@ public class FinancialApp {
             String description = scanner.nextLine();
             System.out.print("Enter vendor: ");
             String vendor = scanner.nextLine();
-//            transactionManager.addDeposit(amount, description, vendor);
+            TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         }
         //Method for adding payment
         private static void addPayment() {
             System.out.print("Enter payment amount: ");
-            double amount = Double.parseDouble(scanner.nextLine());
+            double amount = Double.parseDouble(scanner.nextLine()) * -1;
             System.out.print("Enter payment description: ");
             String description = scanner.nextLine();
             System.out.print("Enter vendor: ");
             String vendor = scanner.nextLine();
 //            transactionManager.addPayment(amount, description, vendor);
+            TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         }
 
         private static void displayLedger() {
@@ -90,14 +93,29 @@ public class FinancialApp {
 
         private static void allEnteries() {
             System.out.println("ALL transactions: ");
+            TransactionFileManager.loadTransactionList();
+            for(Transaction t: TransactionFileManager.transactions) {
+                System.out.println(t);
+            }
         }
 
         private static void deposit() {
             System.out.println("Deposits: ");
+            for(Transaction t: TransactionFileManager.transactions) {
+                if(t.getAmount() > 0) {
+                    System.out.println(t);
+                }
+
+            }
         }
 
         private static void paymentEnteries() {
             System.out.println("Payments: ");
+            for(Transaction t: TransactionFileManager.transactions) {
+                if(t.getAmount() < 0) {
+                    System.out.println(t);
+                }
+            }
         }
         private static void report() {
             String choose;

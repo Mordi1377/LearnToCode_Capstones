@@ -42,10 +42,9 @@ public class Transaction {
         return amount;
     }
 
+
+    public String toString() {
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
+    }
+
 }
-
-
-//    public String toString() {
-//    return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
-
-
