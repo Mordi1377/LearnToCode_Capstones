@@ -70,7 +70,7 @@ public class FinancialApp {
         System.out.println("\nLedger:");
         System.out.println("A) Display ALL Transaction:");
         System.out.println("P) Display Deposits:");
-        System.out.println("L) Display Payments:");
+        System.out.println("I) Display Payments:");
         System.out.println("R) Reports");
         System.out.println("X) Exit");
 
@@ -135,28 +135,29 @@ public class FinancialApp {
 
         choose = scanner.nextLine().toUpperCase();
 
-        switch (choose) {
-            case "M":
-                monthToDate();
-                break;
-            case "P":
-                previousMonth();
-                break;
-            case "Y":
-                yearToDate();
-                break;
-            case "PY":
-                previousYear();
-                break;
-            case "S":
-                searchVendor();
-                break;
-            case "X":
-                System.out.println("Return to main menu");
-            default:
-                System.out.println("Invalid option.");
+            switch (choose) {
+                case "M":
+                    monthToDate();
+                    break;
+                case "P":
+                    previousMonth();
+                    break;
+                case "Y":
+                    yearToDate();
+                    break;
+                case "PY":
+                    previousYear();
+                    break;
+                case "S":
+                    searchVendor();
+                    break;
+                case "X":
+                    System.out.println("Return to main menu");
+                    return;
+                default:
+                    System.out.println("Invalid option.");
+            }
         }
-    }
 
     // Filter Transaction Month to Date
     private static void monthToDate() {
