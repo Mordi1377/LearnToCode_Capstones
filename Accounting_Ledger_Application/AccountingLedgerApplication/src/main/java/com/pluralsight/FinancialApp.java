@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 public class FinancialApp {
     private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
         displayMenu();
 
     }
+
     // Method to display the main menu
     private static void displayMenu() {
         String choose;
@@ -52,6 +54,7 @@ public class FinancialApp {
         System.out.print("Enter vendor: ");
         String vendor = scanner.nextLine();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        System.out.println("Deposit Successfully: ");
     }
 
     //Method for adding payment
@@ -63,7 +66,9 @@ public class FinancialApp {
         System.out.print("Enter vendor: ");
         String vendor = scanner.nextLine();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        System.out.println("Payment Received");
     }
+
     //Method to display ledger
     private static void displayLedger() {
         String choose;
@@ -83,7 +88,7 @@ public class FinancialApp {
             case "P":
                 deposit();
                 break;
-            case "D":
+            case "I":
                 paymentEnteries();
                 break;
             case "R":
@@ -91,10 +96,12 @@ public class FinancialApp {
                 break;
             case "X":
                 System.out.println("Return to main menu");
+                break;
             default:
                 System.out.println("Invalid option.");
         }
     }
+
     // Method to display all transactions
     private static void allEnteries() {
         System.out.println("ALL transactions: ");
@@ -103,7 +110,8 @@ public class FinancialApp {
             System.out.println(t);
         }
     }
-    // Method to display deposits
+
+    // Maaike help Method to display deposits
     private static void deposit() {
         System.out.println("Deposits: ");
         for (Transaction t : TransactionFileManager.transactions) {
@@ -113,7 +121,8 @@ public class FinancialApp {
 
         }
     }
-    // Method to display negative amount payments
+
+    // Maaike help Method to display negative amount payments
     private static void paymentEnteries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.transactions) {
@@ -122,6 +131,7 @@ public class FinancialApp {
             }
         }
     }
+
     // Method to display reports
     private static void report() {
         String choose;
@@ -135,29 +145,29 @@ public class FinancialApp {
 
         choose = scanner.nextLine().toUpperCase();
 
-            switch (choose) {
-                case "M":
-                    monthToDate();
-                    break;
-                case "P":
-                    previousMonth();
-                    break;
-                case "Y":
-                    yearToDate();
-                    break;
-                case "PY":
-                    previousYear();
-                    break;
-                case "S":
-                    searchVendor();
-                    break;
-                case "X":
-                    System.out.println("Return to main menu");
-                    return;
-                default:
-                    System.out.println("Invalid option.");
-            }
+        switch (choose) {
+            case "M":
+                monthToDate();
+                break;
+            case "P":
+                previousMonth();
+                break;
+            case "Y":
+                yearToDate();
+                break;
+            case "PY":
+                previousYear();
+                break;
+            case "S":
+                searchVendor();
+                break;
+            case "X":
+                System.out.println("Return to main menu");
+                return;
+            default:
+                System.out.println("Invalid option.");
         }
+    }
 
     // Filter Transaction Month to Date
     private static void monthToDate() {
@@ -175,23 +185,61 @@ public class FinancialApp {
             }
         }
     }
-
+    // Filter Transaction Previous Month
     private static void previousMonth() {
         System.out.println("Previous Month: ");
-    }
+        LocalDate today = LocalDate.now();
+        int currentMonth = today.getMonthValue();
+        int currentYear = today.getYear();
 
+        TransactionFileManager.loadTransactionList();
+
+        for (Transaction t : TransactionFileManager.transactions) {
+            if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
+                System.out.println(t);
+
+            }
+        }
+    }
+    //Filter Transaction Year to Date
     private static void yearToDate() {
-        System.out.println("Year To Date: ");
-    }
+        System.out.println("Year to Date: ");
+        LocalDate today = LocalDate.now();
+        int currentYear = today.getYear();
 
+        TransactionFileManager.loadTransactionList();
+
+        for (Transaction t : TransactionFileManager.transactions) {
+            if (t.getDate().getYear() == currentYear) {
+                System.out.println(t);
+            }
+        }
+    }
+    //Filter Transaction Previous Year
     private static void previousYear() {
         System.out.println("Previous Year: ");
-    }
+        LocalDate today = LocalDate.now();
+        int previousYear = today.getYear() - 1;
 
+        TransactionFileManager.loadTransactionList();
+
+        for (Transaction t : TransactionFileManager.transactions) {
+            if (t.getDate().getYear() == previousYear) {
+                System.out.println(t);
+            }
+        }
+    }
+    //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
-        String vendorName = scanner.nextLine();
+        String vendorName = scanner.nextLine().toLowerCase();
+
+        TransactionFileManager.loadTransactionList();
+
+        for (Transaction t : TransactionFileManager.transactions) {
+            if (t.getVendor().toLowerCase().contains(vendorName)) {
+                System.out.println(t);
+            }
+        }
     }
-
 }
-
