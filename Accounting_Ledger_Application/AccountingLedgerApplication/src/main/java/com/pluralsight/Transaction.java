@@ -40,6 +40,7 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
+
     //toString method to format transaction data to CSV
     public String toString() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
