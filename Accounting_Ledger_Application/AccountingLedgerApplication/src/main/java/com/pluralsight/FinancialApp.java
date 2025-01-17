@@ -21,7 +21,9 @@ public class FinancialApp {
         }
     }
 
-    // Method to display the main menu
+    /**
+     * Displays Main Menu screen
+     */
     private static void displayMenu() {
         while (true) {
             displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
@@ -42,7 +44,9 @@ public class FinancialApp {
 
     }
 
-    //Method for adding deposit
+    /**
+     * Menu for adding a deposit
+     */
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
         double amount = validateDouble();
@@ -54,7 +58,9 @@ public class FinancialApp {
         System.out.println("Deposit Successfully: ");
     }
 
-    //Method for adding payment
+    /**
+     * Menu for adding a payment
+     */
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
         double amount = validateDouble() * -1;
@@ -66,7 +72,9 @@ public class FinancialApp {
         System.out.println("Payment Received");
     }
 
-    //Method to display ledger
+    /**
+     * Menu for displaying ledger screen
+     */
     private static void displayLedger() {
         displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
                 "P) Display Payments", "R) Reports", "X) Exit");
@@ -82,15 +90,20 @@ public class FinancialApp {
         }
     }
 
-    // Method to display all transactions
+    /**
+     * Display all transactions
+     */
     private static void allEntries() {
+
         System.out.println("ALL transactions: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
         }
     }
 
-    // Maaike help Method to display deposits
+    /**
+     * Display all deposits
+     */
     private static void deposit() {
         System.out.println("Deposits: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
@@ -101,7 +114,9 @@ public class FinancialApp {
         }
     }
 
-    // Maaike help Method to display negative amount payments
+    /**
+     * Display all payments
+     */
     private static void paymentEntries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
@@ -111,7 +126,9 @@ public class FinancialApp {
         }
     }
 
-    // Method to display reports
+    /**
+     * Display Reports Menu
+     */
     private static void report() {
         displayOptions("Report:", "M) Month to Date", "P) Previous Month",
                 "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
@@ -129,6 +146,10 @@ public class FinancialApp {
     }
 
     // Filter Transaction Month to Date
+    /**
+     * Filters Transactions from Month to Date
+     *
+     */
     private static void monthToDate() {
         System.out.println("Month to Date: ");
         LocalDate today = LocalDate.now();
