@@ -1,47 +1,44 @@
 package com.pluralsight;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
 public class FinancialApp {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
+        TransactionFileManager.loadTransactionList();
         displayMenu();
+    }
 
+    // Method to display options
+    private static void displayOptions(String screenName, String... options) {
+        System.out.println("\n" + screenName);
+        for (String option : options) {
+            System.out.println(option);
+        }
     }
 
     /**
      * Displays Main Menu screen
      */
     private static void displayMenu() {
-        String choose;
         while (true) {
-            System.out.println("\nHome Screen:");
-            System.out.println("D) Add Deposit:");
-            System.out.println("P) Add Payment:");
-            System.out.println("L) Display Ledger:");
-            System.out.println("X) Exit");
-            System.out.println("Choose other option: ");
-
-            choose = scanner.nextLine().toUpperCase();
+            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
+                    "L) Display Ledger", "X) Exit", "Choose other option");
+            String choose = validateString().toUpperCase();
 
             switch (choose) {
-                case "D":
-                    addDeposit();
-                    break;
-                case "P":
-                    addPayment();
-                    break;
-                case "L":
-                    displayLedger();
-                    break;
-                case "X":
+                case "D" -> addDeposit();
+                case "P" -> addPayment();
+                case "L" -> displayLedger();
+                case "X" -> {
                     System.out.println("Exiting the application");
                     return;
-                default:
-                    System.out.println("Invalid option.");
+                }
+                default -> System.out.println("Invalid option.");
             }
         }
 
@@ -52,12 +49,12 @@ public class FinancialApp {
      */
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = validateDouble();
         System.out.print("Enter deposit description: ");
-        String description = scanner.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
-        TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        String vendor = validateString();
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));        
         System.out.println("Deposit Successfully: ");
     }
 
@@ -66,12 +63,12 @@ public class FinancialApp {
      */
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
-        double amount = Double.parseDouble(scanner.nextLine()) * -1;
+        double amount = validateDouble() * -1;
         System.out.print("Enter payment description: ");
-        String description = scanner.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
-        TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        String vendor = validateString();
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
         System.out.println("Payment Received");
     }
 
@@ -79,44 +76,27 @@ public class FinancialApp {
      * Menu for displaying ledger screen
      */
     private static void displayLedger() {
-        String choose;
-        System.out.println("\nLedger:");
-        System.out.println("A) Display ALL Transaction:");
-        System.out.println("P) Display Deposits:");
-        System.out.println("I) Display Payments:");
-        System.out.println("R) Reports");
-        System.out.println("X) Exit");
-
-        choose = scanner.nextLine().toUpperCase();
+        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
+                "P) Display Payments", "R) Reports", "X) Exit");
+        String choose = validateString().toUpperCase();
 
         switch (choose) {
-            case "A":
-                allEnteries();
-                break;
-            case "P":
-                deposit();
-                break;
-            case "I":
-                paymentEnteries();
-                break;
-            case "R":
-                report();
-                break;
-            case "X":
-                System.out.println("Return to main menu");
-                break;
-            default:
-                System.out.println("Invalid option.");
+            case "A" -> allEntries();
+            case "P" -> deposit();
+            case "I" -> paymentEntries();
+            case "R" -> report();
+            case "X" -> System.out.println("Return to main menu");
+            default -> System.out.println("Invalid option.");
         }
     }
 
     /**
      * Display all transactions
      */
-    private static void allEnteries() {
+    private static void allEntries() {
+
         System.out.println("ALL transactions: ");
-        TransactionFileManager.loadTransactionList();
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
         }
     }
@@ -126,7 +106,7 @@ public class FinancialApp {
      */
     private static void deposit() {
         System.out.println("Deposits: ");
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() > 0) {
                 System.out.println(t);
             }
@@ -137,9 +117,9 @@ public class FinancialApp {
     /**
      * Display all payments
      */
-    private static void paymentEnteries() {
+    private static void paymentEntries() {
         System.out.println("Payments: ");
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() < 0) {
                 System.out.println(t);
             }
@@ -150,38 +130,18 @@ public class FinancialApp {
      * Display Reports Menu
      */
     private static void report() {
-        String choose;
-        System.out.println("\nReport:");
-        System.out.println("M) Month to Date:");
-        System.out.println("P) Previous Month:");
-        System.out.println("Y) Year to Date:");
-        System.out.println("PY) Previous Year");
-        System.out.println("S) Search by Vendor");
-        System.out.println("X) Exit");
-
-        choose = scanner.nextLine().toUpperCase();
+        displayOptions("Report:", "M) Month to Date", "P) Previous Month",
+                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
+        String choose = validateString().toUpperCase();
 
         switch (choose) {
-            case "M":
-                monthToDate();
-                break;
-            case "P":
-                previousMonth();
-                break;
-            case "Y":
-                yearToDate();
-                break;
-            case "PY":
-                previousYear();
-                break;
-            case "S":
-                searchVendor();
-                break;
-            case "X":
-                System.out.println("Return to main menu");
-                return;
-            default:
-                System.out.println("Invalid option.");
+            case "M" -> monthToDate();
+            case "P" -> previousMonth();
+            case "Y" -> yearToDate();
+            case "PY" -> previousYear();
+            case "S" -> searchVendor();
+            case "X" -> System.out.println("Return to main menu");
+            default -> System.out.println("Invalid option.");
         }
     }
 
@@ -198,13 +158,14 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
 
             }
         }
     }
+
     // Filter Transaction Previous Month
     private static void previousMonth() {
         System.out.println("Previous Month: ");
@@ -214,13 +175,14 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
 
             }
         }
     }
+
     //Filter Transaction Year to Date
     private static void yearToDate() {
         System.out.println("Year to Date: ");
@@ -229,12 +191,13 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == currentYear) {
                 System.out.println(t);
             }
         }
     }
+
     //Filter Transaction Previous Year
     private static void previousYear() {
         System.out.println("Previous Year: ");
@@ -243,23 +206,56 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == previousYear) {
                 System.out.println(t);
             }
         }
     }
+
     //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
-        String vendorName = scanner.nextLine().toLowerCase();
+        String vendorName = validateString();
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getVendor().toLowerCase().contains(vendorName)) {
                 System.out.println(t);
             }
         }
+    }
+
+
+    private static String validateString() {
+
+        String input = scanner.nextLine();
+
+        while (input.trim().isBlank()) {
+            System.out.println("Empty string not allowed");
+            input = scanner.nextLine();
+
+        }
+
+        return input;
+    }
+
+    private static double validateDouble() {
+        boolean valid = false;
+        do {
+            try {
+                double input = scanner.nextFloat();
+                valid = true;
+                return input;
+
+            } catch (Exception e) {
+                System.out.println("Please enter a number");
+            }
+            finally {
+                scanner.nextLine();
+            }
+        } while (!valid);
+        return 0;
     }
 }
