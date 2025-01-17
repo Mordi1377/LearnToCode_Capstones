@@ -143,7 +143,7 @@ public class FinancialApp {
     private static void previousMonth() {
         System.out.println("Previous Month: ");
         LocalDate today = LocalDate.now();
-        int currentMonth = today.getMonthValue();
+        int currentMonth = today.getMonthValue() - 1;
         int currentYear = today.getYear();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
