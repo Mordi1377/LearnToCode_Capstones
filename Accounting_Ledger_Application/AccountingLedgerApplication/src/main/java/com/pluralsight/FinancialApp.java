@@ -1,6 +1,6 @@
 package com.pluralsight;
-// hello world
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -21,11 +21,13 @@ public class FinancialApp {
         }
     }
 
-    // Method to display the main menu
+    /**
+     * Displays Main Menu screen
+     */
     private static void displayMenu() {
         while (true) {
             displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment", "L) Display Ledger", "X) Exit", "Choose other option");
-            String choose = SCANNER.nextLine().toUpperCase();
+            String choose = validateString().toUpperCase();
 
             switch (choose) {
                 case "D" -> addDeposit();
@@ -41,34 +43,40 @@ public class FinancialApp {
 
     }
 
-    //Method for adding deposit
+    /**
+     * Menu for adding a deposit
+     */
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
-        double amount = Double.parseDouble(SCANNER.nextLine());
+        double amount = validateDouble();
         System.out.print("Enter deposit description: ");
-        String description = SCANNER.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = SCANNER.nextLine();
-        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
+        String vendor = validateString();
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));        
         System.out.println("Deposit Successfully: ");
     }
 
-    //Method for adding payment
+    /**
+     * Menu for adding a payment
+     */
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
-        double amount = Double.parseDouble(SCANNER.nextLine()) * -1;
+        double amount = validateDouble() * -1;
         System.out.print("Enter payment description: ");
-        String description = SCANNER.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = SCANNER.nextLine();
+        String vendor = validateString();
         TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
         System.out.println("Payment Received");
     }
 
-    //Method to display ledger
+    /**
+     * Menu for displaying ledger screen
+     */
     private static void displayLedger() {
         displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits", "P) Display Payments", "R) Reports", "X) Exit");
-        String choose = SCANNER.nextLine().toUpperCase();
+        String choose = validateString().toUpperCase();
 
         switch (choose) {
             case "A" -> allEntries();
@@ -80,15 +88,20 @@ public class FinancialApp {
         }
     }
 
-    // Method to display all transactions
+    /**
+     * Display all transactions
+     */
     private static void allEntries() {
+
         System.out.println("ALL transactions: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
         }
     }
 
-    // Maaike help Method to display deposits
+    /**
+     * Display all deposits
+     */
     private static void deposit() {
         System.out.println("Deposits: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
@@ -98,7 +111,9 @@ public class FinancialApp {
         }
     }
 
-    // Maaike help Method to display negative amount payments
+    /**
+     * Display all payments
+     */
     private static void paymentEntries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
@@ -108,10 +123,12 @@ public class FinancialApp {
         }
     }
 
-    // Method to display reports
+    /**
+     * Display Reports Menu
+     */
     private static void report() {
         displayOptions("Report:", "M) Month to Date", "PM) Previous Month", "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
-        String choose = SCANNER.nextLine().toUpperCase();
+        String choose = validateString().toUpperCase();
 
         switch (choose) {
             case "M" -> monthToDate();
@@ -125,6 +142,10 @@ public class FinancialApp {
     }
 
     // Filter Transaction Month to Date
+    /**
+     * Filters Transactions from Month to Date
+     *
+     */
     private static void monthToDate() {
         System.out.println("Month to Date: ");
         LocalDate today = LocalDate.now();
@@ -183,12 +204,44 @@ public class FinancialApp {
     //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
-        String vendorName = SCANNER.nextLine().toLowerCase();
+        String vendorName = validateString();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getVendor().toLowerCase().contains(vendorName)) {
                 System.out.println(t);
             }
         }
+    }
+
+
+    private static String validateString() {
+
+        String input = scanner.nextLine();
+
+        while (input.trim().isBlank()) {
+            System.out.println("Empty string not allowed");
+            input = scanner.nextLine();
+
+        }
+
+        return input;
+    }
+
+    private static double validateDouble() {
+        boolean valid = false;
+        do {
+            try {
+                double input = scanner.nextFloat();
+                valid = true;
+                return input;
+
+            } catch (Exception e) {
+                System.out.println("Please enter a number");
+            }
+            finally {
+                scanner.nextLine();
+            }
+        } while (!valid);
+        return 0;
     }
 }

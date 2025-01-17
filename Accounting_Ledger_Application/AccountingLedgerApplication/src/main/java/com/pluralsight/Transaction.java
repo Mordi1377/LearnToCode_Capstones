@@ -5,13 +5,36 @@ import java.time.LocalTime;
 
 public class Transaction {
 
-    // Instance Filed
+    /**
+     * Date of when transaction took place
+     */
     private LocalDate date;
+    /**
+     * Time of when transaction took place
+     */
     private LocalTime time;
+    /**
+     * Type of transaction being made
+     */
     private String description;
+    /**
+     * Type of vendor
+     */
     private String vendor;
+    /**
+     * Amount of transaction being made
+     */
     private double amount;
-    //Constructor
+
+    //-----------------------------------------------------------------------
+    /**
+     * Constructor of Transaction
+     * @param date - Date of transaction
+     * @param time - Time of transaction
+     * @param description - Description of transaction
+     * @param vendor - Vendor name
+     * @param amount - Amount of transaction
+     */
     public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
@@ -20,28 +43,54 @@ public class Transaction {
         this.amount = amount;
     }
 
-    //Getter to access the transaction object
-    public LocalDate getDate() {
+    //-----------------------------------------------------------------------
+    /**
+     * Gets the value of the specified field from this date as an {@code LocalDate}
+     * @return Date of transaction
+     */
+    public LocalDate getDate()
+    {
         return date;
     }
 
-    public LocalTime getTime() {
+    /**
+     * Gets the value of the specified field from this date as an {@code LocalDate}
+     * @return Time of transaction
+     */
+    public LocalTime getTime()
+    {
         return time;
     }
 
-    public String getDescription() {
+    /**
+     * Gets the value of the specified field from this date as a {@code String}
+     * @return Description of transaction
+     */
+    public String getDescription()
+    {
         return description;
     }
 
+    /**
+     * Gets the value of the specified field from this date as a {@code String}
+     * @return Vendor name
+     */
     public String getVendor() {
         return vendor;
     }
 
-    public double getAmount() {
+    /**
+     * Gets the value of the specified field from this date as a {@code double}
+     * @return Amount of transaction
+     */
+    public double getAmount()
+    {
         return amount;
     }
 
-    //toString method to format transaction data to CSV
+    /**
+     * Returns a {@code string} representation of the object.
+     */
     public String toString() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
