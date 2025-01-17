@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class FinancialApp {
@@ -126,7 +127,8 @@ public class FinancialApp {
      * Display Reports Menu
      */
     private static void report() {
-        displayOptions("Report:", "M) Month to Date", "PM) Previous Month", "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
+        displayOptions("Report:", "M) Month to Date", "PM) Previous Month",
+                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "C) Custom Search", "X) Exit");
         String choose = validateString().toUpperCase();
 
         switch (choose) {
@@ -135,6 +137,7 @@ public class FinancialApp {
             case "Y" -> yearToDate();
             case "PY" -> previousYear();
             case "S" -> searchVendor();
+            case "C" -> customSearch();
             case "X" -> System.out.println("Return to main menu");
             default -> System.out.println("Invalid option.");
         }
@@ -210,6 +213,42 @@ public class FinancialApp {
                 System.out.println(t);
             }
         }
+    }
+
+    private static void customSearch() {
+        List<Transaction> filtered = TransactionFileManager.getTransactions();
+        System.out.println("Would you like to search by start date? (y/n)");
+        String choice = validateString();
+        if (choice.equalsIgnoreCase("y")){
+            LocalDate startDate = LocalDate.parse(validateString());
+            filtered = filtered.stream().filter(t -> t.getDate().isAfter(startDate)).toList();
+        }
+        System.out.println("Would you like to search by end date? (y/n)");
+        choice = validateString();
+        if (choice.equalsIgnoreCase("y")){
+            LocalDate endDate = LocalDate.parse(validateString());
+            filtered = filtered.stream().filter(t -> t.getDate().isBefore(endDate)).toList();
+        }
+        System.out.println("Would you like to search by description? (y/n)");
+        choice = validateString();
+        if (choice.equalsIgnoreCase("y")){
+            String desc = validateString();
+            filtered = filtered.stream().filter(t -> t.getDescription().contains(desc)).toList();
+        }
+        System.out.println("Would you like to search by vendor? (y/n)");
+        choice = validateString();
+        if (choice.equalsIgnoreCase("y")){
+            String vend = validateString();
+            filtered = filtered.stream().filter(t -> t.getVendor().contains(vend)).toList();
+        }
+        System.out.println("Would you like to search by amount? (y/n)");
+        choice = validateString();
+        if (choice.equalsIgnoreCase("y")){
+            Double amount = validateDouble();
+            filtered = filtered.stream().filter(t -> t.getAmount() == amount).toList();
+        }
+
+        filtered.forEach(System.out::println);
     }
 
 
