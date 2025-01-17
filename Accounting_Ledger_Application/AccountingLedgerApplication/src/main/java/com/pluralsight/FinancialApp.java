@@ -52,7 +52,7 @@ public class FinancialApp {
         String description = validateString();
         System.out.print("Enter vendor: ");
         String vendor = validateString();
-        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));        
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
         System.out.println("Deposit Successfully: ");
     }
 
@@ -141,9 +141,9 @@ public class FinancialApp {
     }
 
     // Filter Transaction Month to Date
+
     /**
      * Filters Transactions from Month to Date
-     *
      */
     private static void monthToDate() {
         System.out.println("Month to Date: ");
@@ -233,8 +233,7 @@ public class FinancialApp {
 
             } catch (Exception e) {
                 System.out.println("Please enter a number");
-            }
-            finally {
+            } finally {
                 SCANNER.nextLine();
             }
         }
