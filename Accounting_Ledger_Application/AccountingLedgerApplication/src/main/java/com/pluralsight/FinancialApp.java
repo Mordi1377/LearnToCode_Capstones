@@ -55,7 +55,7 @@ public class FinancialApp {
      * This method prompts the user to input the deposit amount, description, and vendor.
      * It creates a new {@link Transaction} object with the current date and time.
      * The transaction is then converted to a string format and appended to the CSV file
-     * using {@link TransactionFileManager#addTransactionToFile(String)}.
+     * using {@link TransactionFileManager#addTransaction(Transaction)}.
      */
      private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
@@ -76,7 +76,7 @@ public class FinancialApp {
      * It creates a new {@link Transaction} object with the current date and time,
      * and a negative amount (to represent a payment). The transaction is then converted
      * to a string format and appended to the CSV file using
-     * {@link TransactionFileManager#addTransactionToFile(String)}.
+     * {@link TransactionFileManager#addTransaction(Transaction)}.
      */
      private static void addPayment() {
         System.out.print("Enter payment amount: ");
@@ -171,8 +171,7 @@ public class FinancialApp {
      * or search transactions by vendor. The user can also exit the menu.
      */
     private static void report() {
-        displayOptions("Report:", "M) Month to Date", "PM) Previous Month",
-                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "C) Custom Search", "X) Exit");
+        displayOptions("Report:", "M) Month to Date", "PM) Previous Month", "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "C) Custom Search", "X) Exit");
         String choose = validateString().toUpperCase();
 
         switch (choose) {
@@ -235,7 +234,7 @@ public class FinancialApp {
         }
     }
 
-    //-----------------------------------------------------------------------
+    //------ -----------------------------------------------------------------
     /**
      * Prints a list of transactions that occurred in the current year to date.
      * <p>
@@ -329,16 +328,21 @@ public class FinancialApp {
         System.out.println("Would you like to search by amount? (y/n)");
         choice = validateString();
         if (choice.equalsIgnoreCase("y")){
-            Double amount = validateDouble();
+            double amount = validateDouble();
             filtered = filtered.stream().filter(t -> t.getAmount() == amount).toList();
         }
-
         filtered.forEach(System.out::println);
     }
 
-
+    /**
+    * Validates a user input string to ensure it is not empty or composed only of whitespace.
+    * <p>
+     * This method uses a scanner to read input from the user and repeatedly prompts
+    * the user until a valid, non-blank string is provided. If the input is blank
+    * or contains only whitespace, the user is notified with a message, and re-prompted.
+    *</p>
+    */
     private static String validateString() {
-
         String input = SCANNER.nextLine();
 
         while (input.trim().isBlank()) {
@@ -346,9 +350,17 @@ public class FinancialApp {
             input = SCANNER.nextLine();
 
         }
-
         return input;
     }
+    /**
+     * Validates and retrieves a double input from the user.
+     * <p>
+     * This method continuously prompts the user to enter a valid numeric input
+     * until a valid double value is provided. If the user enters invalid input
+     * (e.g., non-numeric values), an error message is displayed, and the user
+     * is re-prompted. The scanner's buffer is cleared after each attempt.
+     * </p>
+     */
 
     private static double validateDouble() {
         while (true) {
