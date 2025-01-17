@@ -1,6 +1,5 @@
 package com.pluralsight;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -164,7 +163,7 @@ public class FinancialApp {
     private static void previousMonth() {
         System.out.println("Previous Month: ");
         LocalDate today = LocalDate.now();
-        int currentMonth = today.getMonthValue();
+        int currentMonth = today.getMonthValue() - 1;
         int currentYear = today.getYear();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
@@ -216,11 +215,11 @@ public class FinancialApp {
 
     private static String validateString() {
 
-        String input = scanner.nextLine();
+        String input = SCANNER.nextLine();
 
         while (input.trim().isBlank()) {
             System.out.println("Empty string not allowed");
-            input = scanner.nextLine();
+            input = SCANNER.nextLine();
 
         }
 
@@ -228,20 +227,16 @@ public class FinancialApp {
     }
 
     private static double validateDouble() {
-        boolean valid = false;
-        do {
+        while (true) {
             try {
-                double input = scanner.nextFloat();
-                valid = true;
-                return input;
+                return SCANNER.nextFloat();
 
             } catch (Exception e) {
                 System.out.println("Please enter a number");
             }
             finally {
-                scanner.nextLine();
+                SCANNER.nextLine();
             }
-        } while (!valid);
-        return 0;
+        }
     }
 }
