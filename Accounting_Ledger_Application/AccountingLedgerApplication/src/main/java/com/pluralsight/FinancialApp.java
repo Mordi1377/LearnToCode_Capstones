@@ -29,12 +29,7 @@ public class FinancialApp {
      * chooses to exit by entering the {@code X} option. Each menu option triggers
      * a corresponding method for performing specific tasks.
      */
-<<<<<<< HEAD
-    private static void displayMenu() {
-=======
      private static void displayMenu() {
-        String choose;
->>>>>>> 89facdc (refactor completed comments)
         while (true) {
             displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment", "L) Display Ledger", "X) Exit", "Choose other option");
             String choose = validateString().toUpperCase();
@@ -125,12 +120,7 @@ public class FinancialApp {
      * and iterates through each transaction in the list, printing its details to the console.
      * The transactions are displayed in the order they appear in the CSV file.
      */
-<<<<<<< HEAD
     private static void allEntries() {
-
-=======
-     private static void allEnteries() {
->>>>>>> 89facdc (refactor completed comments)
         System.out.println("ALL transactions: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
@@ -162,11 +152,7 @@ public class FinancialApp {
      * {@link TransactionFileManager} and prints only those transactions where
      * the amount is less than zero (representing payments).
      */
-<<<<<<< HEAD
     private static void paymentEntries() {
-=======
-     private static void paymentEnteries() {
->>>>>>> 89facdc (refactor completed comments)
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() < 0) {
@@ -184,24 +170,10 @@ public class FinancialApp {
      * reports for the current month, previous month, current year, previous year,
      * or search transactions by vendor. The user can also exit the menu.
      */
-<<<<<<< HEAD
     private static void report() {
         displayOptions("Report:", "M) Month to Date", "PM) Previous Month",
                 "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "C) Custom Search", "X) Exit");
         String choose = validateString().toUpperCase();
-=======
-     private static void report() {
-        String choose;
-        System.out.println("\nReport:");
-        System.out.println("M) Month to Date:");
-        System.out.println("P) Previous Month:");
-        System.out.println("Y) Year to Date:");
-        System.out.println("PY) Previous Year");
-        System.out.println("S) Search by Vendor");
-        System.out.println("X) Exit");
-
-        choose = scanner.nextLine().toUpperCase();
->>>>>>> 89facdc (refactor completed comments)
 
         switch (choose) {
             case "M" -> monthToDate();
@@ -215,12 +187,6 @@ public class FinancialApp {
         }
     }
 
-<<<<<<< HEAD
-    // Filter Transaction Month to Date
-
-    /**
-     * Filters Transactions from Month to Date
-=======
     //-----------------------------------------------------------------------
     /**
      * Prints a list of transactions that occurred in the current month to date.
@@ -230,7 +196,6 @@ public class FinancialApp {
      *  transactions to include only those matching the current month and year.
      *  <p>
      *  Transactions are displayed using their overridden {@code toString()} method.
->>>>>>> 89facdc (refactor completed comments)
      */
     private static void monthToDate() {
         System.out.println("Month to Date: ");
@@ -246,10 +211,6 @@ public class FinancialApp {
         }
     }
 
-<<<<<<< HEAD
-    // Filter Transaction Previous Month
-    private static void previousMonth() {
-=======
     //-----------------------------------------------------------------------
     /**
      * Prints a list of transactions that occurred in the previous month.
@@ -261,7 +222,6 @@ public class FinancialApp {
      * Transactions are displayed using their overridden {@code toString()} method.
      */
         private static void previousMonth() {
->>>>>>> 89facdc (refactor completed comments)
         System.out.println("Previous Month: ");
         LocalDate today = LocalDate.now();
         int currentMonth = today.getMonthValue() - 1;
@@ -275,9 +235,6 @@ public class FinancialApp {
         }
     }
 
-<<<<<<< HEAD
-    //Filter Transaction Year to Date
-=======
     //-----------------------------------------------------------------------
     /**
      * Prints a list of transactions that occurred in the current year to date.
@@ -288,7 +245,6 @@ public class FinancialApp {
      * <p>
      * Transactions are displayed using their overridden {@code toString()} method.
      */
->>>>>>> 89facdc (refactor completed comments)
     private static void yearToDate() {
         System.out.println("Year to Date: ");
         LocalDate today = LocalDate.now();
@@ -301,9 +257,6 @@ public class FinancialApp {
         }
     }
 
-<<<<<<< HEAD
-    //Filter Transaction Previous Year
-=======
     //-----------------------------------------------------------------------
     /**
      * Prints a list of transactions that occurred in the previous year.
@@ -314,7 +267,6 @@ public class FinancialApp {
      * <p>
      * Transactions are displayed using their overridden {@code toString()} method.
      */
->>>>>>> 89facdc (refactor completed comments)
     private static void previousYear() {
         System.out.println("Previous Year: ");
         LocalDate today = LocalDate.now();
@@ -327,9 +279,6 @@ public class FinancialApp {
         }
     }
 
-<<<<<<< HEAD
-    //Filter Transaction Vendor Name
-=======
     //-----------------------------------------------------------------------
     /**
      Prints a list of transactions that match the specified vendor name.
@@ -340,7 +289,6 @@ public class FinancialApp {
      * the input string. Matching transactions are displayed using their
      * overridden {@code toString()} method.
      */
->>>>>>> 89facdc (refactor completed comments)
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
         String vendorName = validateString();
