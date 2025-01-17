@@ -26,8 +26,7 @@ public class FinancialApp {
      */
     private static void displayMenu() {
         while (true) {
-            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
-                    "L) Display Ledger", "X) Exit", "Choose other option");
+            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment", "L) Display Ledger", "X) Exit", "Choose other option");
             String choose = validateString().toUpperCase();
 
             switch (choose) {
@@ -76,14 +75,13 @@ public class FinancialApp {
      * Menu for displaying ledger screen
      */
     private static void displayLedger() {
-        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
-                "P) Display Payments", "R) Reports", "X) Exit");
+        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits", "P) Display Payments", "R) Reports", "X) Exit");
         String choose = validateString().toUpperCase();
 
         switch (choose) {
             case "A" -> allEntries();
-            case "P" -> deposit();
-            case "I" -> paymentEntries();
+            case "D" -> deposit();
+            case "P" -> paymentEntries();
             case "R" -> report();
             case "X" -> System.out.println("Return to main menu");
             default -> System.out.println("Invalid option.");
@@ -110,7 +108,6 @@ public class FinancialApp {
             if (t.getAmount() > 0) {
                 System.out.println(t);
             }
-
         }
     }
 
@@ -130,13 +127,12 @@ public class FinancialApp {
      * Display Reports Menu
      */
     private static void report() {
-        displayOptions("Report:", "M) Month to Date", "P) Previous Month",
-                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
+        displayOptions("Report:", "M) Month to Date", "PM) Previous Month", "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
         String choose = validateString().toUpperCase();
 
         switch (choose) {
             case "M" -> monthToDate();
-            case "P" -> previousMonth();
+            case "PM" -> previousMonth();
             case "Y" -> yearToDate();
             case "PY" -> previousYear();
             case "S" -> searchVendor();
@@ -156,8 +152,6 @@ public class FinancialApp {
         int currentMonth = today.getMonthValue();
         int currentYear = today.getYear();
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
@@ -173,8 +167,6 @@ public class FinancialApp {
         int currentMonth = today.getMonthValue();
         int currentYear = today.getYear();
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
@@ -189,8 +181,6 @@ public class FinancialApp {
         LocalDate today = LocalDate.now();
         int currentYear = today.getYear();
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == currentYear) {
                 System.out.println(t);
@@ -204,8 +194,6 @@ public class FinancialApp {
         LocalDate today = LocalDate.now();
         int previousYear = today.getYear() - 1;
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == previousYear) {
                 System.out.println(t);
@@ -217,8 +205,6 @@ public class FinancialApp {
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
         String vendorName = validateString();
-
-        TransactionFileManager.loadTransactionList();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getVendor().toLowerCase().contains(vendorName)) {
