@@ -6,14 +6,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FinancialApp {
+    /**
+     * The {@code Scanner} used in the rest of the program for user input through the commandline
+     */
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Main entrypoint into the program. Loads transaction list first.
+     */
     public static void main(String[] args) {
         TransactionFileManager.loadTransactionList();
         displayMenu();
     }
 
-    // Method to display options
+    /**
+     * Display the {@code screenName} and the {@code options} to inform the user what they can select
+     * @param screenName The name of the current screen
+     * @param options The options of the current screen
+     */
     private static void displayOptions(String screenName, String... options) {
         System.out.println("\n" + screenName);
         for (String option : options) {
@@ -138,7 +148,7 @@ public class FinancialApp {
      private static void deposit() {
         System.out.println("Deposits: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getAmount() > 0) {
+            if (t.amount() > 0) {
                 System.out.println(t);
             }
         }
@@ -155,7 +165,7 @@ public class FinancialApp {
     private static void paymentEntries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getAmount() < 0) {
+            if (t.amount() < 0) {
                 System.out.println(t);
             }
         }
@@ -203,7 +213,7 @@ public class FinancialApp {
         int currentYear = today.getYear();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
+            if (t.date().getMonthValue() == currentMonth && t.date().getYear() == currentYear) {
                 System.out.println(t);
 
             }
@@ -227,7 +237,7 @@ public class FinancialApp {
         int currentYear = today.getYear();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
+            if (t.date().getMonthValue() == currentMonth && t.date().getYear() == currentYear) {
                 System.out.println(t);
 
             }
@@ -250,7 +260,7 @@ public class FinancialApp {
         int currentYear = today.getYear();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getDate().getYear() == currentYear) {
+            if (t.date().getYear() == currentYear) {
                 System.out.println(t);
             }
         }
@@ -272,7 +282,7 @@ public class FinancialApp {
         int previousYear = today.getYear() - 1;
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getDate().getYear() == previousYear) {
+            if (t.date().getYear() == previousYear) {
                 System.out.println(t);
             }
         }
@@ -293,43 +303,46 @@ public class FinancialApp {
         String vendorName = validateString();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
-            if (t.getVendor().toLowerCase().contains(vendorName)) {
+            if (t.vendor().toLowerCase().contains(vendorName)) {
                 System.out.println(t);
             }
         }
     }
 
+    /**
+     * Displays custom search menu options that stores user input in a {@code String}.
+     */
     private static void customSearch() {
         List<Transaction> filtered = TransactionFileManager.getTransactions();
         System.out.println("Would you like to search by start date? (y/n)");
         String choice = validateString();
         if (choice.equalsIgnoreCase("y")){
             LocalDate startDate = LocalDate.parse(validateString());
-            filtered = filtered.stream().filter(t -> t.getDate().isAfter(startDate)).toList();
+            filtered = filtered.stream().filter(t -> t.date().isAfter(startDate)).toList();
         }
         System.out.println("Would you like to search by end date? (y/n)");
         choice = validateString();
         if (choice.equalsIgnoreCase("y")){
             LocalDate endDate = LocalDate.parse(validateString());
-            filtered = filtered.stream().filter(t -> t.getDate().isBefore(endDate)).toList();
+            filtered = filtered.stream().filter(t -> t.date().isBefore(endDate)).toList();
         }
         System.out.println("Would you like to search by description? (y/n)");
         choice = validateString();
         if (choice.equalsIgnoreCase("y")){
             String desc = validateString();
-            filtered = filtered.stream().filter(t -> t.getDescription().contains(desc)).toList();
+            filtered = filtered.stream().filter(t -> t.description().contains(desc)).toList();
         }
         System.out.println("Would you like to search by vendor? (y/n)");
         choice = validateString();
         if (choice.equalsIgnoreCase("y")){
             String vend = validateString();
-            filtered = filtered.stream().filter(t -> t.getVendor().contains(vend)).toList();
+            filtered = filtered.stream().filter(t -> t.vendor().contains(vend)).toList();
         }
         System.out.println("Would you like to search by amount? (y/n)");
         choice = validateString();
         if (choice.equalsIgnoreCase("y")){
             double amount = validateDouble();
-            filtered = filtered.stream().filter(t -> t.getAmount() == amount).toList();
+            filtered = filtered.stream().filter(t -> t.amount() == amount).toList();
         }
         filtered.forEach(System.out::println);
     }
@@ -352,6 +365,7 @@ public class FinancialApp {
         }
         return input;
     }
+
     /**
      * Validates and retrieves a double input from the user.
      * <p>
@@ -361,12 +375,10 @@ public class FinancialApp {
      * is re-prompted. The scanner's buffer is cleared after each attempt.
      * </p>
      */
-
     private static double validateDouble() {
         while (true) {
             try {
                 return SCANNER.nextFloat();
-
             } catch (Exception e) {
                 System.out.println("Please enter a number");
             } finally {

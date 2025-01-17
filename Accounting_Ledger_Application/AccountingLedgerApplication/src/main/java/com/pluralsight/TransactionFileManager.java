@@ -15,9 +15,13 @@ import java.util.List;
  * parts of the application.
  */
 public class TransactionFileManager {
-    // The transaction list
+    /**
+     * The list of {@code Transaction}s in-memory
+     */
     private static final List<Transaction> TRANSACTIONS = new ArrayList<>();
-    //The CSV file where the transactions are saved
+    /**
+     * The name of the CSV file where transactions are saved
+     */
     private static final String FILE_NAME = "src/transactions.csv";
 
     //-----------------------------------------------------------------------
@@ -67,6 +71,10 @@ public class TransactionFileManager {
         }
     }
 
+    /**
+     * A getter for the {@code TRANSACTIONS} list
+     * @return List of {@code Transaction}s
+     */
     public static List<Transaction> getTransactions() {
         return TRANSACTIONS;
     }
