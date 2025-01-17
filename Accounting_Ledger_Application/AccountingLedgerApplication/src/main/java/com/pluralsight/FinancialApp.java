@@ -12,18 +12,20 @@ public class FinancialApp {
 
     }
 
+    // Method to display options
+    private static void displayOptions(String screenName, String... options) {
+        System.out.println("\n" + screenName);
+        for (String option : options) {
+            System.out.println(option);
+        }
+    }
+
     // Method to display the main menu
     private static void displayMenu() {
-        String choose;
         while (true) {
-            System.out.println("\nHome Screen:");
-            System.out.println("D) Add Deposit:");
-            System.out.println("P) Add Payment:");
-            System.out.println("L) Display Ledger:");
-            System.out.println("X) Exit");
-            System.out.println("Choose other option: ");
-
-            choose = scanner.nextLine().toUpperCase();
+            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
+                    "L) Display Ledger", "X) Exit", "Choose other option");
+            String choose = scanner.nextLine().toUpperCase();
 
             switch (choose) {
                 case "D":
@@ -71,15 +73,9 @@ public class FinancialApp {
 
     //Method to display ledger
     private static void displayLedger() {
-        String choose;
-        System.out.println("\nLedger:");
-        System.out.println("A) Display ALL Transaction:");
-        System.out.println("P) Display Deposits:");
-        System.out.println("I) Display Payments:");
-        System.out.println("R) Reports");
-        System.out.println("X) Exit");
-
-        choose = scanner.nextLine().toUpperCase();
+        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
+                "P) Display Payments", "R) Reports", "X) Exit");
+        String choose = scanner.nextLine().toUpperCase();
 
         switch (choose) {
             case "A":
@@ -134,16 +130,9 @@ public class FinancialApp {
 
     // Method to display reports
     private static void report() {
-        String choose;
-        System.out.println("\nReport:");
-        System.out.println("M) Month to Date:");
-        System.out.println("P) Previous Month:");
-        System.out.println("Y) Year to Date:");
-        System.out.println("PY) Previous Year");
-        System.out.println("S) Search by Vendor");
-        System.out.println("X) Exit");
-
-        choose = scanner.nextLine().toUpperCase();
+        displayOptions("Report:", "M) Month to Date", "P) Previous Month",
+                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
+        String choose = scanner.nextLine().toUpperCase();
 
         switch (choose) {
             case "M":
