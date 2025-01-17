@@ -88,6 +88,7 @@ public class Transaction {
         return amount;
     }
 
+    //-----------------------------------------------------------------------
     /**
      * Returns a {@code string} representation of the object.
      */
