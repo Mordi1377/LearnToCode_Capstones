@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 public class FinancialApp {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
         displayMenu();
@@ -25,7 +25,7 @@ public class FinancialApp {
         while (true) {
             displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
                     "L) Display Ledger", "X) Exit", "Choose other option");
-            String choose = scanner.nextLine().toUpperCase();
+            String choose = SCANNER.nextLine().toUpperCase();
 
             switch (choose) {
                 case "D":
@@ -50,11 +50,11 @@ public class FinancialApp {
     //Method for adding deposit
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = Double.parseDouble(SCANNER.nextLine());
         System.out.print("Enter deposit description: ");
-        String description = scanner.nextLine();
+        String description = SCANNER.nextLine();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
+        String vendor = SCANNER.nextLine();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         System.out.println("Deposit Successfully: ");
     }
@@ -62,11 +62,11 @@ public class FinancialApp {
     //Method for adding payment
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
-        double amount = Double.parseDouble(scanner.nextLine()) * -1;
+        double amount = Double.parseDouble(SCANNER.nextLine()) * -1;
         System.out.print("Enter payment description: ");
-        String description = scanner.nextLine();
+        String description = SCANNER.nextLine();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
+        String vendor = SCANNER.nextLine();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         System.out.println("Payment Received");
     }
@@ -75,7 +75,7 @@ public class FinancialApp {
     private static void displayLedger() {
         displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
                 "P) Display Payments", "R) Reports", "X) Exit");
-        String choose = scanner.nextLine().toUpperCase();
+        String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
             case "A":
@@ -102,7 +102,7 @@ public class FinancialApp {
     private static void allEnteries() {
         System.out.println("ALL transactions: ");
         TransactionFileManager.loadTransactionList();
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
         }
     }
@@ -110,7 +110,7 @@ public class FinancialApp {
     // Maaike help Method to display deposits
     private static void deposit() {
         System.out.println("Deposits: ");
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() > 0) {
                 System.out.println(t);
             }
@@ -121,7 +121,7 @@ public class FinancialApp {
     // Maaike help Method to display negative amount payments
     private static void paymentEnteries() {
         System.out.println("Payments: ");
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() < 0) {
                 System.out.println(t);
             }
@@ -132,7 +132,7 @@ public class FinancialApp {
     private static void report() {
         displayOptions("Report:", "M) Month to Date", "P) Previous Month",
                 "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
-        String choose = scanner.nextLine().toUpperCase();
+        String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
             case "M":
@@ -167,7 +167,7 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
 
@@ -183,7 +183,7 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
 
@@ -198,7 +198,7 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == currentYear) {
                 System.out.println(t);
             }
@@ -212,7 +212,7 @@ public class FinancialApp {
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == previousYear) {
                 System.out.println(t);
             }
@@ -221,11 +221,11 @@ public class FinancialApp {
     //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
-        String vendorName = scanner.nextLine().toLowerCase();
+        String vendorName = SCANNER.nextLine().toLowerCase();
 
         TransactionFileManager.loadTransactionList();
 
-        for (Transaction t : TransactionFileManager.transactions) {
+        for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getVendor().toLowerCase().contains(vendorName)) {
                 System.out.println(t);
             }
