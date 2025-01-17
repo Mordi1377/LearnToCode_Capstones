@@ -12,7 +12,9 @@ public class FinancialApp {
 
     }
 
-    // Method to display the main menu
+    /**
+     * Displays Main Menu screen
+     */
     private static void displayMenu() {
         String choose;
         while (true) {
@@ -45,7 +47,9 @@ public class FinancialApp {
 
     }
 
-    //Method for adding deposit
+    /**
+     * Menu for adding a deposit
+     */
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
         double amount = Double.parseDouble(scanner.nextLine());
@@ -57,7 +61,9 @@ public class FinancialApp {
         System.out.println("Deposit Successfully: ");
     }
 
-    //Method for adding payment
+    /**
+     * Menu for adding a payment
+     */
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
         double amount = Double.parseDouble(scanner.nextLine()) * -1;
@@ -69,7 +75,9 @@ public class FinancialApp {
         System.out.println("Payment Received");
     }
 
-    //Method to display ledger
+    /**
+     * Menu for displaying ledger screen
+     */
     private static void displayLedger() {
         String choose;
         System.out.println("\nLedger:");
@@ -102,7 +110,9 @@ public class FinancialApp {
         }
     }
 
-    // Method to display all transactions
+    /**
+     * Display all transactions
+     */
     private static void allEnteries() {
         System.out.println("ALL transactions: ");
         TransactionFileManager.loadTransactionList();
@@ -111,7 +121,9 @@ public class FinancialApp {
         }
     }
 
-    // Maaike help Method to display deposits
+    /**
+     * Display all deposits
+     */
     private static void deposit() {
         System.out.println("Deposits: ");
         for (Transaction t : TransactionFileManager.transactions) {
@@ -122,7 +134,9 @@ public class FinancialApp {
         }
     }
 
-    // Maaike help Method to display negative amount payments
+    /**
+     * Display all payments
+     */
     private static void paymentEnteries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.transactions) {
@@ -132,7 +146,9 @@ public class FinancialApp {
         }
     }
 
-    // Method to display reports
+    /**
+     * Display Reports Menu
+     */
     private static void report() {
         String choose;
         System.out.println("\nReport:");
@@ -170,6 +186,10 @@ public class FinancialApp {
     }
 
     // Filter Transaction Month to Date
+    /**
+     * Filters Transactions from Month to Date
+     *
+     */
     private static void monthToDate() {
         System.out.println("Month to Date: ");
         LocalDate today = LocalDate.now();
