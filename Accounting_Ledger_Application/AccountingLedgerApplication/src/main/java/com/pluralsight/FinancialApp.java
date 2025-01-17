@@ -1,5 +1,4 @@
 package com.pluralsight;
-// hello world
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
