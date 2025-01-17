@@ -1,5 +1,6 @@
 package com.pluralsight;
 // hello world
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -23,8 +24,7 @@ public class FinancialApp {
     // Method to display the main menu
     private static void displayMenu() {
         while (true) {
-            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment",
-                    "L) Display Ledger", "X) Exit", "Choose other option");
+            displayOptions("Home Screen:", "D) Add Deposit", "P) Add Payment", "L) Display Ledger", "X) Exit", "Choose other option");
             String choose = SCANNER.nextLine().toUpperCase();
 
             switch (choose) {
@@ -67,14 +67,13 @@ public class FinancialApp {
 
     //Method to display ledger
     private static void displayLedger() {
-        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits",
-                "P) Display Payments", "R) Reports", "X) Exit");
+        displayOptions("Ledger:", "A) Display ALL Transactions", "D) Display Deposits", "P) Display Payments", "R) Reports", "X) Exit");
         String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
             case "A" -> allEntries();
-            case "P" -> deposit();
-            case "I" -> paymentEntries();
+            case "D" -> deposit();
+            case "P" -> paymentEntries();
             case "R" -> report();
             case "X" -> System.out.println("Return to main menu");
             default -> System.out.println("Invalid option.");
@@ -96,7 +95,6 @@ public class FinancialApp {
             if (t.getAmount() > 0) {
                 System.out.println(t);
             }
-
         }
     }
 
@@ -112,13 +110,12 @@ public class FinancialApp {
 
     // Method to display reports
     private static void report() {
-        displayOptions("Report:", "M) Month to Date", "P) Previous Month",
-                "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
+        displayOptions("Report:", "M) Month to Date", "PM) Previous Month", "Y) Year to Date", "PY) Previous Year", "S) Search by Vendor", "X) Exit");
         String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
             case "M" -> monthToDate();
-            case "P" -> previousMonth();
+            case "PM" -> previousMonth();
             case "Y" -> yearToDate();
             case "PY" -> previousYear();
             case "S" -> searchVendor();
@@ -134,8 +131,6 @@ public class FinancialApp {
         int currentMonth = today.getMonthValue();
         int currentYear = today.getYear();
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
@@ -143,6 +138,7 @@ public class FinancialApp {
             }
         }
     }
+
     // Filter Transaction Previous Month
     private static void previousMonth() {
         System.out.println("Previous Month: ");
@@ -150,8 +146,6 @@ public class FinancialApp {
         int currentMonth = today.getMonthValue();
         int currentYear = today.getYear();
 
-        TransactionFileManager.loadTransactionList();
-
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getMonthValue() == currentMonth && t.getDate().getYear() == currentYear) {
                 System.out.println(t);
@@ -159,13 +153,12 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Year to Date
     private static void yearToDate() {
         System.out.println("Year to Date: ");
         LocalDate today = LocalDate.now();
         int currentYear = today.getYear();
-
-        TransactionFileManager.loadTransactionList();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == currentYear) {
@@ -173,13 +166,12 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Previous Year
     private static void previousYear() {
         System.out.println("Previous Year: ");
         LocalDate today = LocalDate.now();
         int previousYear = today.getYear() - 1;
-
-        TransactionFileManager.loadTransactionList();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getDate().getYear() == previousYear) {
@@ -187,12 +179,11 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
         String vendorName = SCANNER.nextLine().toLowerCase();
-
-        TransactionFileManager.loadTransactionList();
 
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getVendor().toLowerCase().contains(vendorName)) {
