@@ -12,10 +12,6 @@ public class TransactionFileManager {
     //The CSV file where the transactions are saved
     private static final String FILE_NAME = "src/transactions.csv";
 
-    public TransactionFileManager() {
-
-    }
-
     // maaike helper methods
     public static void loadTransactionList() {
         TRANSACTIONS.clear();
@@ -25,6 +21,7 @@ public class TransactionFileManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] arrTrans = line.split("\\|");
+                // add transaction to in-memory list
                 Transaction transaction = new Transaction(LocalDate.parse(arrTrans[0]), LocalTime.parse(arrTrans[1]), arrTrans[2], arrTrans[3], Double.parseDouble(arrTrans[4]));
                 TRANSACTIONS.add(transaction);
             }
@@ -35,11 +32,12 @@ public class TransactionFileManager {
     }
 
     // maaike helper methods
-    public static void addTransactionToFile(String transactionStr) {
+    public static void addTransaction(Transaction transaction) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
-            bw.write("\n" + transactionStr);
+            bw.write("\n" + transaction.toString());
             bw.close();
+            TRANSACTIONS.add(transaction);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

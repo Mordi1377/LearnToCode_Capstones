@@ -8,8 +8,8 @@ public class FinancialApp {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
+        TransactionFileManager.loadTransactionList();
         displayMenu();
-
     }
 
     // Method to display options
@@ -28,20 +28,14 @@ public class FinancialApp {
             String choose = SCANNER.nextLine().toUpperCase();
 
             switch (choose) {
-                case "D":
-                    addDeposit();
-                    break;
-                case "P":
-                    addPayment();
-                    break;
-                case "L":
-                    displayLedger();
-                    break;
-                case "X":
+                case "D" -> addDeposit();
+                case "P" -> addPayment();
+                case "L" -> displayLedger();
+                case "X" -> {
                     System.out.println("Exiting the application");
                     return;
-                default:
-                    System.out.println("Invalid option.");
+                }
+                default -> System.out.println("Invalid option.");
             }
         }
 
@@ -55,7 +49,7 @@ public class FinancialApp {
         String description = SCANNER.nextLine();
         System.out.print("Enter vendor: ");
         String vendor = SCANNER.nextLine();
-        TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
         System.out.println("Deposit Successfully: ");
     }
 
@@ -67,7 +61,7 @@ public class FinancialApp {
         String description = SCANNER.nextLine();
         System.out.print("Enter vendor: ");
         String vendor = SCANNER.nextLine();
-        TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
+        TransactionFileManager.addTransaction(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount));
         System.out.println("Payment Received");
     }
 
@@ -78,30 +72,18 @@ public class FinancialApp {
         String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
-            case "A":
-                allEnteries();
-                break;
-            case "P":
-                deposit();
-                break;
-            case "I":
-                paymentEnteries();
-                break;
-            case "R":
-                report();
-                break;
-            case "X":
-                System.out.println("Return to main menu");
-                break;
-            default:
-                System.out.println("Invalid option.");
+            case "A" -> allEntries();
+            case "P" -> deposit();
+            case "I" -> paymentEntries();
+            case "R" -> report();
+            case "X" -> System.out.println("Return to main menu");
+            default -> System.out.println("Invalid option.");
         }
     }
 
     // Method to display all transactions
-    private static void allEnteries() {
+    private static void allEntries() {
         System.out.println("ALL transactions: ");
-        TransactionFileManager.loadTransactionList();
         for (Transaction t : TransactionFileManager.getTransactions()) {
             System.out.println(t);
         }
@@ -119,7 +101,7 @@ public class FinancialApp {
     }
 
     // Maaike help Method to display negative amount payments
-    private static void paymentEnteries() {
+    private static void paymentEntries() {
         System.out.println("Payments: ");
         for (Transaction t : TransactionFileManager.getTransactions()) {
             if (t.getAmount() < 0) {
@@ -135,26 +117,13 @@ public class FinancialApp {
         String choose = SCANNER.nextLine().toUpperCase();
 
         switch (choose) {
-            case "M":
-                monthToDate();
-                break;
-            case "P":
-                previousMonth();
-                break;
-            case "Y":
-                yearToDate();
-                break;
-            case "PY":
-                previousYear();
-                break;
-            case "S":
-                searchVendor();
-                break;
-            case "X":
-                System.out.println("Return to main menu");
-                return;
-            default:
-                System.out.println("Invalid option.");
+            case "M" -> monthToDate();
+            case "P" -> previousMonth();
+            case "Y" -> yearToDate();
+            case "PY" -> previousYear();
+            case "S" -> searchVendor();
+            case "X" -> System.out.println("Return to main menu");
+            default -> System.out.println("Invalid option.");
         }
     }
 
