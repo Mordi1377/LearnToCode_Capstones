@@ -1,4 +1,6 @@
 package com.pluralsight;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -22,7 +24,7 @@ public class FinancialApp {
             System.out.println("X) Exit");
             System.out.println("Choose other option: ");
 
-            choose = scanner.nextLine().toUpperCase();
+            choose = validateString().toUpperCase();
 
             switch (choose) {
                 case "D":
@@ -47,11 +49,11 @@ public class FinancialApp {
     //Method for adding deposit
     private static void addDeposit() {
         System.out.print("Enter deposit amount: ");
-        double amount = Double.parseDouble(scanner.nextLine());
+        double amount = validateDouble();
         System.out.print("Enter deposit description: ");
-        String description = scanner.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
+        String vendor = validateString();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         System.out.println("Deposit Successfully: ");
     }
@@ -59,11 +61,11 @@ public class FinancialApp {
     //Method for adding payment
     private static void addPayment() {
         System.out.print("Enter payment amount: ");
-        double amount = Double.parseDouble(scanner.nextLine()) * -1;
+        double amount = validateDouble() * -1;
         System.out.print("Enter payment description: ");
-        String description = scanner.nextLine();
+        String description = validateString();
         System.out.print("Enter vendor: ");
-        String vendor = scanner.nextLine();
+        String vendor = validateString();
         TransactionFileManager.addTransactionToFile(new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount).toString());
         System.out.println("Payment Received");
     }
@@ -78,7 +80,7 @@ public class FinancialApp {
         System.out.println("R) Reports");
         System.out.println("X) Exit");
 
-        choose = scanner.nextLine().toUpperCase();
+        choose = validateString().toUpperCase();
 
         switch (choose) {
             case "A":
@@ -142,7 +144,7 @@ public class FinancialApp {
         System.out.println("S) Search by Vendor");
         System.out.println("X) Exit");
 
-        choose = scanner.nextLine().toUpperCase();
+        choose = validateString().toUpperCase();
 
         switch (choose) {
             case "M":
@@ -184,6 +186,7 @@ public class FinancialApp {
             }
         }
     }
+
     // Filter Transaction Previous Month
     private static void previousMonth() {
         System.out.println("Previous Month: ");
@@ -200,6 +203,7 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Year to Date
     private static void yearToDate() {
         System.out.println("Year to Date: ");
@@ -214,6 +218,7 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Previous Year
     private static void previousYear() {
         System.out.println("Previous Year: ");
@@ -228,10 +233,11 @@ public class FinancialApp {
             }
         }
     }
+
     //Filter Transaction Vendor Name
     private static void searchVendor() {
         System.out.println("Vendor Name: ");
-        String vendorName = scanner.nextLine().toLowerCase();
+        String vendorName = validateString();
 
         TransactionFileManager.loadTransactionList();
 
@@ -240,5 +246,37 @@ public class FinancialApp {
                 System.out.println(t);
             }
         }
+    }
+
+
+    private static String validateString() {
+
+        String input = scanner.nextLine();
+
+        while (input.trim().isBlank()) {
+            System.out.println("Empty string not allowed");
+            input = scanner.nextLine();
+
+        }
+
+        return input;
+    }
+
+    private static double validateDouble() {
+        boolean valid = false;
+        do {
+            try {
+                double input = scanner.nextFloat();
+                valid = true;
+                return input;
+
+            } catch (Exception e) {
+                System.out.println("Please enter a number");
+            }
+            finally {
+                scanner.nextLine();
+            }
+        } while (!valid);
+        return 0;
     }
 }
